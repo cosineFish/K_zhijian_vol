@@ -25,12 +25,12 @@ FLAG_NOISE_STA = struct('ON',0,'OFF',1,'UNSTABLE',-1,'DELTA',2);
 [time_noise_on, delta_vol ] = processVolDelta(time, K_Vol );
 global dateStr;
 global xlsFilePath;
-if startDate{1} == endDate{1}
-    dateStr = startDate{1};
-    xlsFilePath = ['data',startDate{1},'.xls'];
+if startDate == endDate
+    dateStr = startDate;
+    xlsFilePath = ['data',startDate,'.xls'];
 else
-    dateStr = [startDate{1},'~',endDate{1}];
-    xlsFilePath = ['data',startDate{1},'_',endDate{1},'.xls'];
+    dateStr = [startDate,'~',endDate];
+    xlsFilePath = ['data',startDate,'_',endDate,'.xls'];
 end
 global figure_num;figure_num = 0;
 %画打开噪声管时的电压差值曲线
