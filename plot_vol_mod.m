@@ -9,7 +9,7 @@ function plot_vol_mod(vol,time,xData,desc_str)
         max_value(channel_num) = max(vol(:,channel_num));
         pp_value(channel_num) = max_value(channel_num) - min_value(channel_num);
     end
-    vol_delta = ceil(max(pp_value) * 100) / 100.0;
+    vol_delta = ceil(max(pp_value) * 1000) / 1000.0;
     if nargin == 4
         title_str = ['K波段直检接收机各通道的电压曲线（测量日期:',dateStr,desc_str,'）'];
     else

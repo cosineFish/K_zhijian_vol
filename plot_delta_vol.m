@@ -28,7 +28,7 @@ function plot_delta_vol(vol,time,xData,desc_str)
             ax = gca;
             ax.XTick = datenum(xData);
             datetick(ax,'x','mm/DD HH:MM','keepticks');
-            minValue = floor(min_value(channel_num) * 100) / 100.0;
+            minValue = floor(min_value(channel_num) * 1000) / 1000.0;
             maxValue = minValue + vol_delta;
             if minValue == maxValue
                 vol_delta = 0.1;

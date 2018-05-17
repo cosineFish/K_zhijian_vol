@@ -9,7 +9,7 @@ function [time_noise_on, delta_vol_noise ] = processVolDelta(time, vol )
     %开噪声
     flag_vol_up = ((delta_vol > vol_range_max) == 1);
     flag_noise_on = flag_vol_up | flag_high_vol;
-    time_noise_on = datenum(time(flag_noise_on));
+    %time_noise_on = datenum(time(flag_noise_on));
     %vol_noise_on = vol(flag_noise_on,:);
     %关噪声
     flag_vol_down = ((delta_vol < -vol_range_max) == 1);
@@ -20,12 +20,19 @@ function [time_noise_on, delta_vol_noise ] = processVolDelta(time, vol )
     last_low_vol = vol(flag_last_low_vol,1:8);
     start_index_high_vol = find((flag_noise_on(1:end-1)==0) & (flag_noise_on(2:end)==1)) + 1;%从低电压到高电压
     end_index_high_vol = find((flag_noise_on(1:end-1)==1) & (flag_noise_on(2:end) == 0));%从高电压到低电压
+    delta_length = length(start_index_high_vol) - length(end_index_high_vol);
+    if delta_length == 1
+        start_index_high_vol(1) = [];
+    elseif delta_length == -1
+        end_index_high_vol(1) = [];
+    end
     delta_index_high_vol = end_index_high_vol - start_index_high_vol;
     delta_start_index = 1;
     for i = 1:length(last_low_vol)
         delta_end_index = delta_start_index + delta_index_high_vol(i);
         delta_vol_noise(delta_start_index:delta_end_index,1:8) = ...
             vol(start_index_high_vol(i):end_index_high_vol(i),1:8) - last_low_vol(i,1:8);
+        time_noise_on(delta_start_index:delta_end_index) = datenum(time(start_index_high_vol(i):end_index_high_vol(i)));
         delta_start_index = delta_end_index + 1;
     end
 end
